@@ -1,5 +1,6 @@
 import numpy as np
 from scipy.spatial.distance import euclidean
+from .constants import GRAVITATIONAL_CONSTANT
 
 
 class Body:
@@ -12,6 +13,14 @@ class Body:
 
     def distance(self, other):
         return euclidean(self.position, other.position)
+
+    def force(self, other):
+        '''The gravitational force other inflicts on this Body'''
+        return - (
+            GRAVITATIONAL_CONSTANT
+            * self.mass * other.mass
+            * (self.position - other.position) / self.distance(other)**3
+        )
 
     @property
     def kinetic_energy(self):

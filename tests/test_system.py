@@ -25,8 +25,11 @@ def test_kinetic_energy():
 
 def test_potential_energy():
     from solarsystem import SolarSystem, Body
+    from solarsystem import constants
 
-    s = SolarSystem(gravitational_constant=1.0, bodies=[
+    constants.GRAVITATIONAL_CONSTANT = 1.0
+
+    s = SolarSystem(bodies=[
         Body(mass=1, position=[0, 0, 0], velocity=[1, -1, 0]),
         Body(mass=2, position=[3, 4, 0], velocity=[2, 1, 0]),
     ])

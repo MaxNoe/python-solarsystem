@@ -1,10 +1,15 @@
 from itertools import combinations
+
 from . import constants as c
 
 
 class SolarSystem:
     def __init__(self, bodies=None):
         self.bodies = bodies or []
+        self.accelerations = [
+            b.force(self.bodies) / b.mass
+            for b in self.bodies
+        ]
 
     @property
     def total_energy(self):
@@ -23,3 +28,12 @@ class SolarSystem:
 
     def __len__(self):
         return len(self.bodies)
+
+    def do_velocity_verlet_step(self, delta_t=1e-2):
+        for i, (a, body) in enumerate(zip(self.accelerations, self.bodies)):
+            body.position += body.velocity * delta_t + a * delta_t**2
+
+        for i, (a, body) in enumerate(zip(self.accelerations, self.bodies)):
+            new_a = body.force(self.bodies) / body.mass
+            body.velocity += 0.5 * (a + new_a) * delta_t
+            self.accelerations[i] = new_a

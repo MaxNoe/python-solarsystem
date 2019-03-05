@@ -17,8 +17,8 @@ class SolarSystem:
 
     @property
     def potential_energy(self):
-        return -sum(
-            c.GRAVITATIONAL_CONSTANT * b1.mass * b2.mass * b1.distance(b2)
+        return -c.GRAVITATIONAL_CONSTANT * sum(
+            b1.mass * b2.mass / b1.distance(b2)
             for b1, b2 in combinations(self.bodies, 2)
         )
 
